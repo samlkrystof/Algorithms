@@ -1,37 +1,53 @@
-package sorting;
+package main.sorting;
 
 import java.util.Arrays;
 import java.util.Random;
 
 /******************************************************************************
- * Instances of class BubbleSort are ...
+ * Instances of class MergeSort are ...
  *
  *
  * @author Krystof Saml
  * @version 1.00.0000
- * @date 11.08.2021
+ * @date 15.08.2021
  */
 
-public class BubbleSort {
+public class MergeSort {
 
     public static void sort(int[] array) {
-        for (int i = 0; i < array.length - 1; i++) {
-            boolean notSwapped = true;
-            int tmp;
-            for (int j = 1; j < array.length - i; j++) {
-                if (array[j - 1] > array[j]) {
-                    tmp = array[j - 1];
-                    array[j - 1] = array[j];
-                    array[j] = tmp;
-                    notSwapped = false;
-                }
-            }
+        sort(array, 0, array.length - 1);
+    }
 
-            if (notSwapped) {
-                return;
-            }
+    private static void sort(int[] array, int left, int right) {
+        if (left >= right) return;
 
+        int middle = (left + right) / 2;
+        sort(array, left, middle);
+        sort(array, middle + 1, right);
+        int[] bitonic = makeBitonic(array, left, middle, right);
+        merge(array, bitonic, left);
+
+    }
+
+    private static void merge(int[] array, int[] bitonic, int index) {
+        int left = 0;
+        int right = bitonic.length - 1;
+        for (int i = 0; i < bitonic.length; i++) {
+            array[i + index] = bitonic[left] < bitonic[right] ? bitonic[left++] : bitonic[right--];
         }
+    }
+
+    private static int[] makeBitonic(int[] array, int start, int middle, int end) {
+        int[] bitonic = new int[end - start + 1];
+
+        for (int i = start; i <= middle; i++) {
+            bitonic[i - start] = array[i];
+        }
+        for (int i = middle + 1; i <= end; i++) {
+            bitonic[end - start + middle + 1 - i] = array[i];
+        }
+
+        return bitonic;
     }
 
     public static void test() {
@@ -58,7 +74,7 @@ public class BubbleSort {
     public static void main(String[] args) {
         //int[] array = new int[]{2,5,1,4,7, 6, -3};
         //sort(array);
-       test();
+        test();
         //System.out.println(Arrays.toString(array));
     }
     //== CONSTANT CLASS ATTRIBUTES =============================================

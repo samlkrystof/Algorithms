@@ -1,10 +1,10 @@
-package sorting;
+package main.sorting;
 
 import java.util.Arrays;
 import java.util.Random;
 
 /******************************************************************************
- * Instances of class ShakerSort are ...
+ * Instances of class CountingSort are ...
  *
  *
  * @author Krystof Saml
@@ -12,35 +12,30 @@ import java.util.Random;
  * @date 11.08.2021
  */
 
-public class ShakerSort {
-
+public class CountingSort {
     public static void sort(int[] array) {
-        for (int i = 0; i < array.length / 2; i++) {
-            boolean notSwapped = true;
-            int tmp;
-
-            for (int j = 1; j < array.length - i; j++) {
-                if (array[j - 1] > array[j]) {
-                    tmp = array[j - 1];
-                    array[j - 1] = array[j];
-                    array[j] = tmp;
-                    notSwapped = false;
-                }
+        int maxVal = array[0];
+        int minVal = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > maxVal) {
+                maxVal = array[i];
+            } else if (array[i] < minVal) {
+                minVal = array[i];
             }
+        }
+        sort(array, minVal, maxVal);
+    }
 
-            for (int j = array.length - i - 1; j > i ; j--) {
-                if (array[j - 1] > array[j]) {
-                    tmp = array[j - 1];
-                    array[j - 1] = array[j];
-                    array[j] = tmp;
-                    notSwapped = false;
-                }
+    private static void sort(int[] array, int minVal, int maxVal) {
+        int[] countArray = new int[maxVal - minVal + 1];
+        for (int i = 0; i < array.length; i++) {
+            countArray[array[i] - minVal]++;
+        }
+        int arrayIndex = 0;
+        for (int i = 0; i < countArray.length; i++) {
+            while (countArray[i]-- > 0) {
+                array[arrayIndex++] = i + minVal;
             }
-
-            if (notSwapped) {
-                return;
-            }
-
         }
     }
 

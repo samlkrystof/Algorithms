@@ -1,10 +1,10 @@
-package sorting;
+package main.sorting;
 
 import java.util.Arrays;
 import java.util.Random;
 
 /******************************************************************************
- * Instances of class CountingSort are ...
+ * Instances of class BubbleSort are ...
  *
  *
  * @author Krystof Saml
@@ -12,30 +12,25 @@ import java.util.Random;
  * @date 11.08.2021
  */
 
-public class CountingSort {
-    public static void sort(int[] array) {
-        int maxVal = array[0];
-        int minVal = array[0];
-        for (int i = 1; i < array.length; i++) {
-            if (array[i] > maxVal) {
-                maxVal = array[i];
-            } else if (array[i] < minVal) {
-                minVal = array[i];
-            }
-        }
-        sort(array, minVal, maxVal);
-    }
+public class BubbleSort {
 
-    private static void sort(int[] array, int minVal, int maxVal) {
-        int[] countArray = new int[maxVal - minVal + 1];
-        for (int i = 0; i < array.length; i++) {
-            countArray[array[i] - minVal]++;
-        }
-        int arrayIndex = 0;
-        for (int i = 0; i < countArray.length; i++) {
-            while (countArray[i]-- > 0) {
-                array[arrayIndex++] = i + minVal;
+    public static void sort(int[] array) {
+        for (int i = 0; i < array.length - 1; i++) {
+            boolean notSwapped = true;
+            int tmp;
+            for (int j = 1; j < array.length - i; j++) {
+                if (array[j - 1] > array[j]) {
+                    tmp = array[j - 1];
+                    array[j - 1] = array[j];
+                    array[j] = tmp;
+                    notSwapped = false;
+                }
             }
+
+            if (notSwapped) {
+                return;
+            }
+
         }
     }
 
@@ -63,7 +58,7 @@ public class CountingSort {
     public static void main(String[] args) {
         //int[] array = new int[]{2,5,1,4,7, 6, -3};
         //sort(array);
-        test();
+       test();
         //System.out.println(Arrays.toString(array));
     }
     //== CONSTANT CLASS ATTRIBUTES =============================================

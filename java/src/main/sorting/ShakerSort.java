@@ -1,52 +1,48 @@
-package sorting;
+package main.sorting;
 
 import java.util.Arrays;
 import java.util.Random;
 
 /******************************************************************************
- * Instances of class QuickSort are ...
+ * Instances of class ShakerSort are ...
  *
  *
  * @author Krystof Saml
  * @version 1.00.0000
- * @date 14.08.2021
+ * @date 11.08.2021
  */
 
-public class QuickSort {
+public class ShakerSort {
+
     public static void sort(int[] array) {
-        sort(array, 0, array.length - 1);
-    }
+        for (int i = 0; i < array.length / 2; i++) {
+            boolean notSwapped = true;
+            int tmp;
 
-    private static void sort(int[] array, int left, int right) {
-        if (left >= right) return;
+            for (int j = 1; j < array.length - i; j++) {
+                if (array[j - 1] > array[j]) {
+                    tmp = array[j - 1];
+                    array[j - 1] = array[j];
+                    array[j] = tmp;
+                    notSwapped = false;
+                }
+            }
 
-        int middle = split(array, left, right);
-        sort(array, left, middle - 1);
-        sort(array, middle + 1, right);
-    }
+            for (int j = array.length - i - 1; j > i ; j--) {
+                if (array[j - 1] > array[j]) {
+                    tmp = array[j - 1];
+                    array[j - 1] = array[j];
+                    array[j] = tmp;
+                    notSwapped = false;
+                }
+            }
 
-    private static int split(int[] array, int left, int right) {
-        int pivot = array[right];
-        while (true) {
-            while (left < right && array[left] < pivot) left++;
-
-            if (left < right) {
-                array[right] = array[left];
-                right--;
-            } else break;
-
-            while (left < right && array[right] > pivot) right--;
-
-            if (left < right) {
-                array[left] = array[right];
-                left++;
-            } else break;
+            if (notSwapped) {
+                return;
+            }
 
         }
-        array[left] = pivot;
-        return left;
     }
-
 
     public static void test() {
         int max = 5000;

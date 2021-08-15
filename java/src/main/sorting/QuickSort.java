@@ -1,30 +1,52 @@
-package sorting;
+package main.sorting;
 
 import java.util.Arrays;
 import java.util.Random;
 
 /******************************************************************************
- * Instances of class InsertSort are ...
+ * Instances of class QuickSort are ...
  *
  *
  * @author Krystof Saml
  * @version 1.00.0000
- * @date 10.08.2021
+ * @date 14.08.2021
  */
 
-public class InsertSort {
-
-    private static void sort(int[] array) {
-        for (int i = 0; i < array.length - 1; i++) {
-            int j = i + 1;
-            int tmp = array[j];
-            while (j > 0 && tmp < array[j - 1]) {
-                array[j] = array[j - 1];
-                j--;
-            }
-            array[j] = tmp;
-        }
+public class QuickSort {
+    public static void sort(int[] array) {
+        sort(array, 0, array.length - 1);
     }
+
+    private static void sort(int[] array, int left, int right) {
+        if (left >= right) return;
+
+        int middle = split(array, left, right);
+        sort(array, left, middle - 1);
+        sort(array, middle + 1, right);
+    }
+
+    private static int split(int[] array, int left, int right) {
+        int pivot = array[right];
+        while (true) {
+            while (left < right && array[left] < pivot) left++;
+
+            if (left < right) {
+                array[right] = array[left];
+                right--;
+            } else break;
+
+            while (left < right && array[right] > pivot) right--;
+
+            if (left < right) {
+                array[left] = array[right];
+                left++;
+            } else break;
+
+        }
+        array[left] = pivot;
+        return left;
+    }
+
 
     public static void test() {
         int max = 5000;
