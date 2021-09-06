@@ -1,28 +1,50 @@
 package main.sorting;
 
+import java.util.Stack;
+
 /******************************************************************************
- * Instances of class MergeSort are ...
+ * Instances of class MergeStackSort are ...
  *
  *
  * @author Krystof Saml
  * @version 1.00.0000
  */
 
-public class MergeSort implements ISorting {
+public class MergeSortNonRecursive implements ISorting {
 
-    public void sort(int[] array) {
-        sort(array, 0, array.length - 1);
+    private static class Task {
+        public int left;
+        public int right;
+        public int segment;
+        public Task(int left, int right) {
+            this.left = left;
+            this.right = right;
+            this.segment = 0;
+        }
     }
 
-    private void sort(int[] array, int left, int right) {
-        if (left >= right) return;
-
-        int middle = (left + right) / 2;
-        sort(array, left, middle);
-        sort(array, middle + 1, right);
-        int[] bitonic = makeBitonic(array, left, middle, right);
-        merge(array, bitonic, left);
-
+    public void sort(int[] array) {
+        Stack<Task> stack = new Stack<>();
+        stack.push(new Task(0, array.length - 1));
+        while (!stack.isEmpty()) {
+            Task t = stack.pop();
+            if (t.left >= t.right) continue;
+            int middle = (t.left + t.right) / 2;
+            switch (t.segment) {
+                case 0:
+                    t.segment++;
+                    stack.push(t);
+                    stack.push(new Task(t.left, middle));
+                    stack.push(new Task(middle + 1, t.right));
+                    break;
+                case 1:
+                    int[] bitonic = makeBitonic(array, t.left, middle, t.right);
+                    merge(array, bitonic, t.left);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + t.segment);
+            }
+        }
     }
 
     private void merge(int[] array, int[] bitonic, int index) {
@@ -59,3 +81,5 @@ public class MergeSort implements ISorting {
     //== PUBLIC METHODS OF INSTANCES ===========================================
     //== PRIVATE METHODS OF INSTANCES ==========================================
 }
+
+

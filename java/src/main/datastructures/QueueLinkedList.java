@@ -1,48 +1,70 @@
-package main.sorting;
+package main.datastructures;
 
 /******************************************************************************
- * Instances of class QuickSort are ...
+ * Instances of class QueueLinkedList are ...
  *
  *
  * @author Krystof Saml
  * @version 1.00.0000
  */
 
-public class QuickSort implements ISorting {
-    public void sort(int[] array) {
-        sort(array, 0, array.length - 1);
-    }
+public class QueueLinkedList<T> implements IQueue<T> {
+    private Link<T> first;
+    private Link<T> last;
 
-    private void sort(int[] array, int left, int right) {
-        if (left >= right) return;
+    private static class Link<T> {
+        T value;
+        Link<T> next;
 
-        int middle = split(array, left, right);
-        sort(array, left, middle - 1);
-        sort(array, middle + 1, right);
-    }
-
-    private int split(int[] array, int left, int right) {
-        int pivot = array[right];
-        while (true) {
-            while (left < right && array[left] < pivot) left++;
-
-            if (left < right) {
-                array[right] = array[left];
-                right--;
-            } else break;
-
-            while (left < right && array[right] > pivot) right--;
-
-            if (left < right) {
-                array[left] = array[right];
-                left++;
-            } else break;
-
+        public Link(T value) {
+            this.value = value;
         }
-        array[left] = pivot;
-        return left;
+
+    }
+    @Override
+    public void add(T element) {
+        Link<T> newLink = new Link<>(element);
+        if (isEmpty()) {
+            first = newLink;
+        } else {
+            last.next = newLink;
+        }
+        last = newLink;
     }
 
+    @Override
+    public T get() {
+        if (isEmpty()) throw new NullPointerException("Queue is empty");
+        return first.value;
+    }
+
+    @Override
+    public void removeFirst() {
+        if (isEmpty()) throw new NullPointerException("Queue is empty");
+        first = first.next;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return first == null;
+    }
+
+    @Override
+    public void enqueue(T element) {
+        this.add(element);
+    }
+
+    @Override
+    public T dequeue() {
+        T result = get();
+        removeFirst();
+        return result;
+    }
+
+    @Override
+    public T peek() {
+        return this.get();
+    }
     //== CONSTANT CLASS ATTRIBUTES =============================================
     //== VARIABLE CLASS ATTRIBUTES =============================================
     //== STATIC INITIALIZER BLOCK ==============================================

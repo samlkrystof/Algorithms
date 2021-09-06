@@ -1,43 +1,54 @@
-package main.sorting;
+package main.datastructures;
 
 /******************************************************************************
- * Instances of class ShakerSort are ...
+ * Instances of class IntStack are ...
  *
  *
  * @author Krystof Saml
  * @version 1.00.0000
  */
 
-public class ShakerSort implements ISorting {
+public class IntStack {
+    private Link top;
 
-    public void sort(int[] array) {
-        for (int i = 0; i < array.length / 2; i++) {
-            boolean notSwapped = true;
-            int tmp;
+    private static class Link {
+        public int value;
+        public Link next;
 
-            for (int j = 1; j < array.length - i; j++) {
-                if (array[j - 1] > array[j]) {
-                    tmp = array[j - 1];
-                    array[j - 1] = array[j];
-                    array[j] = tmp;
-                    notSwapped = false;
-                }
-            }
-
-            for (int j = array.length - i - 1; j > i ; j--) {
-                if (array[j - 1] > array[j]) {
-                    tmp = array[j - 1];
-                    array[j - 1] = array[j];
-                    array[j] = tmp;
-                    notSwapped = false;
-                }
-            }
-
-            if (notSwapped) {
-                return;
-            }
-
+        public Link(int value) {
+            this.value = value;
         }
+    }
+
+    public boolean isEmpty() {
+        return top == null;
+    }
+
+    public void push(int value) {
+        Link newLink = new Link(value);
+        newLink.next = top;
+        top = newLink;
+    }
+
+    public int pop() {
+        if (isEmpty()) throw new NullPointerException("Stack is empty");
+        Link result = top;
+        top = top.next;
+        return result.value;
+    }
+
+    public int get() {
+        if (isEmpty()) throw new NullPointerException("Stack is empty");
+        return top.value;
+    }
+
+    public void clear() {
+        top = null;
+    }
+
+    public void removeLast() {
+        if (isEmpty()) throw new NullPointerException("Stack is empty");
+        top = top.next;
     }
     //== CONSTANT CLASS ATTRIBUTES =============================================
     //== VARIABLE CLASS ATTRIBUTES =============================================

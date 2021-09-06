@@ -1,8 +1,5 @@
 package main.sorting;
 
-import java.util.Arrays;
-import java.util.Random;
-
 /******************************************************************************
  * Instances of class CountingSort are ...
  *
@@ -12,8 +9,8 @@ import java.util.Random;
  * @date 11.08.2021
  */
 
-public class CountingSort {
-    public static void sort(int[] array) {
+public class CountingSort implements ISorting {
+    public void sort(int[] array) {
         int maxVal = array[0];
         int minVal = array[0];
         for (int i = 1; i < array.length; i++) {
@@ -26,7 +23,7 @@ public class CountingSort {
         sort(array, minVal, maxVal);
     }
 
-    private static void sort(int[] array, int minVal, int maxVal) {
+    private void sort(int[] array, int minVal, int maxVal) {
         int[] countArray = new int[maxVal - minVal + 1];
         for (int i = 0; i < array.length; i++) {
             countArray[array[i] - minVal]++;
@@ -39,33 +36,6 @@ public class CountingSort {
         }
     }
 
-    public static void test() {
-        int max = 5000;
-        Random random = new Random();
-        for (int i = 0; i < max; i++) {
-            int[] array = new int[random.nextInt(max)];
-            int[] arrayCopy = new int[array.length];
-            for (int j = 0; j < array.length; j++) {
-                int number = random.nextInt(max) - 2500;
-                array[j] = number;
-                arrayCopy[j] = number;
-            }
-            Arrays.sort(arrayCopy);
-            sort(array);
-            for (int j = 0; j < array.length; j++) {
-                if (array[j] != arrayCopy[j]) {
-                    System.out.println("Chyba");
-                }
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        //int[] array = new int[]{2,5,1,4,7, 6, -3};
-        //sort(array);
-        test();
-        //System.out.println(Arrays.toString(array));
-    }
     //== CONSTANT CLASS ATTRIBUTES =============================================
     //== VARIABLE CLASS ATTRIBUTES =============================================
     //== STATIC INITIALIZER BLOCK ==============================================

@@ -1,24 +1,37 @@
 package main.sorting;
 
+import java.util.Stack;
+
 /******************************************************************************
- * Instances of class QuickSort are ...
+ * Instances of class QuickStackSort are ...
  *
  *
  * @author Krystof Saml
  * @version 1.00.0000
  */
 
-public class QuickSort implements ISorting {
-    public void sort(int[] array) {
-        sort(array, 0, array.length - 1);
+public class QuickSortNonRecursive implements ISorting {
+
+    private static class Task {
+        public int left;
+        public int right;
+
+        public Task(int left, int right) {
+            this.left = left;
+            this.right = right;
+        }
     }
 
-    private void sort(int[] array, int left, int right) {
-        if (left >= right) return;
-
-        int middle = split(array, left, right);
-        sort(array, left, middle - 1);
-        sort(array, middle + 1, right);
+    public void sort(int[] array) {
+        Stack<Task> stack = new Stack<>();
+        stack.push(new Task(0, array.length - 1));
+        while (!stack.isEmpty()) {
+            Task t = stack.pop();
+            if (t.left >= t.right) continue;
+            int middle = split(array, t.left, t.right);
+            stack.push(new Task(t.left, middle - 1));
+            stack.push(new Task(middle + 1, t.right));
+        }
     }
 
     private int split(int[] array, int left, int right) {
@@ -42,7 +55,6 @@ public class QuickSort implements ISorting {
         array[left] = pivot;
         return left;
     }
-
     //== CONSTANT CLASS ATTRIBUTES =============================================
     //== VARIABLE CLASS ATTRIBUTES =============================================
     //== STATIC INITIALIZER BLOCK ==============================================
