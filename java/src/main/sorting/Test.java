@@ -14,9 +14,9 @@ import java.util.Random;
 public class Test {
     private static Random random;
     public static void main(String[] args) {
-        ISorting[] array = new ISorting[]{new BubbleSort(), new CountingSort(), new InsertSort(), new MergeSort(),
-        new MergeSortNonRecursive(), new QuickSort(), new QuickSort2(), new QuickSortNonRecursive(), new SelectionSort(),
-        new ShakerSort(), new ShellSort()};
+        ISorting[] array = new ISorting[]{new BinaryInsertionSort(), new BubbleSort(), new CountingSort(),
+                new InsertSort(), new MergeSort(), new MergeSortNonRecursive(), new QuickSort(), new QuickSort2(),
+                new QuickSortNonRecursive(), new SelectionSort(), new ShakerSort(), new ShellSort()};
         for (ISorting algorithm : array) {
             if (isWorking(algorithm)) {
                 test(algorithm);
