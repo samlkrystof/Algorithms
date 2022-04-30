@@ -10,7 +10,7 @@ import java.util.Stack;
  * @version 1.00.0000
  */
 
-public class QuickSortNonRecursive implements ISorting {
+public class QuickSortNonRecursive extends ASorting {
 
     private static class Task {
         public int left;
@@ -23,18 +23,19 @@ public class QuickSortNonRecursive implements ISorting {
     }
 
     public void sort(int[] array) {
+        this.array = array;
         Stack<Task> stack = new Stack<>();
         stack.push(new Task(0, array.length - 1));
         while (!stack.isEmpty()) {
             Task t = stack.pop();
             if (t.left >= t.right) continue;
-            int middle = split(array, t.left, t.right);
+            int middle = split(t.left, t.right);
             stack.push(new Task(t.left, middle - 1));
             stack.push(new Task(middle + 1, t.right));
         }
     }
 
-    private int split(int[] array, int left, int right) {
+    private int split(int left, int right) {
         int pivot = array[right];
         while (true) {
             while (left < right && array[left] < pivot) left++;

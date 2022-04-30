@@ -22,6 +22,10 @@ public class LinkList<T> {
         }
     }
 
+
+    public int getSize() {
+        return this.size;
+    }
     public void moveToFirst() {
         current = null;
     }

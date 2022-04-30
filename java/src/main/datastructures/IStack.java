@@ -1,6 +1,7 @@
 package main.datastructures;
 
 public interface IStack<T> {
+    int getSize();
     void push(T element);
     void add(T element);
     T get();
@@ -8,4 +9,6 @@ public interface IStack<T> {
     void clear();
     void removeLast();
     boolean isEmpty();
+    boolean contains(T element);
+    void remove(T element);
 }

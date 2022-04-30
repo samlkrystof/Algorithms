@@ -1,8 +1,6 @@
 package main.datastructures;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -15,6 +13,7 @@ import java.util.stream.Collectors;
  */
 
 public class BinarySearchTree<K extends Comparable<K>,V> {
+    private int size = 0;
     private Node<K,V> root;
 
     private static class Node<K,V> {
@@ -30,7 +29,7 @@ public class BinarySearchTree<K extends Comparable<K>,V> {
     }
 
     private Node<K,V> getMinNode() {
-        if (root == null) throw new NullPointerException("BST is empty");
+        if (isEmpty()) throw new NullPointerException("BST is empty");
         Node<K,V> node = root;
         while (node.left != null) {
             node = node.left;
@@ -39,6 +38,7 @@ public class BinarySearchTree<K extends Comparable<K>,V> {
     }
 
     public V get(K key) {
+        if (isEmpty()) throw new NullPointerException("BST is empty");
         Node<K,V> node = root;
         while (node != null) {
             if (node.key.equals(key)) {
@@ -57,7 +57,7 @@ public class BinarySearchTree<K extends Comparable<K>,V> {
     }
 
     private Node<K,V> getMaxNode() {
-        if (root == null) throw new NullPointerException("BST is empty");
+        if (isEmpty()) throw new NullPointerException("BST is empty");
         Node<K,V> node = root;
         while (node.right != null) {
             node = node.right;
@@ -85,7 +85,7 @@ public class BinarySearchTree<K extends Comparable<K>,V> {
 
     public void add(K key, V value) {
         Node<K,V> newNode = new Node<>(key, value);
-        if (root == null) {
+        if (isEmpty()) {
             root = newNode;
         } else {
             Node<K,V> pred = null;
@@ -98,15 +98,18 @@ public class BinarySearchTree<K extends Comparable<K>,V> {
                     node = node.right;
                 }
             }
+
             if (pred.key.compareTo(newNode.key) > 0) {
                 pred.left = newNode;
             } else {
                 pred.right = newNode;
             }
         }
+        size++;
     }
 
     public void remove(K key) {
+        if (isEmpty()) throw new NullPointerException("BST is empty");
         Node<K,V> pred = null;
         Node<K,V> node = root;
         while (node != null) {
@@ -122,7 +125,7 @@ public class BinarySearchTree<K extends Comparable<K>,V> {
             }
         }
         if (node == null)
-            throw new NullPointerException("BST is empty");
+            throw new IllegalArgumentException("Item with this key is not in the BST");
 
         if (node.left == null || node.right == null) {
             Node<K,V> replacement = node.left;
@@ -164,12 +167,16 @@ public class BinarySearchTree<K extends Comparable<K>,V> {
                 }
             }
 
+            size--;
         }
     }
 
+    public boolean isEmpty() {
+        return root == null;
+    }
+
     private List<Node<K,V>> getSortedNodes() {
-        if (root == null)
-            throw new NullPointerException("BST is empty");
+        if (isEmpty()) throw new NullPointerException("BST is empty");
 
         List<Node<K,V>> list = new ArrayList<>();
         Stack<Part> stack = new Stack<>();
@@ -206,11 +213,74 @@ public class BinarySearchTree<K extends Comparable<K>,V> {
                 .collect(Collectors.toList());
     }
 
+    public List<Node<K,V>> getAsPreOrder() {
+        if (isEmpty()) throw new NullPointerException("BST is empty");
+        List<Node<K,V>> list = new ArrayList<>(this.size);
+
+        Stack<Node<K,V>> stack = new Stack<>();
+
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Node<K,V> node = stack.pop();
+
+            list.add(node);
+            if (node.right != null) stack.push(node.right);
+            if (node.left != null) stack.push(node.left);
+        }
+
+        return list;
+    }
+
+    public List<Node<K,V>> getAsPostOrder() {
+        if (isEmpty()) throw new NullPointerException("BST is empty");
+        List<Node<K,V>> list = new ArrayList<>(this.size);
+
+        Stack<Part> stack = new Stack<>();
+
+        stack.push(new Part(root));
+        while (!stack.isEmpty()) {
+            Part part = stack.pop();
+
+            switch (part.segment) {
+                case 0:
+                    part.segment++;
+                    stack.push(part);
+                    if (part.node.right != null) stack.push(new Part(part.node.right));
+                    if (part.node.left != null) stack.push(new Part(part.node.left));
+                    break;
+
+                case 1:
+                    list.add(part.node);
+                    break;
+            }
+        }
+
+        return list;
+    }
+
+    public List<Node<K,V>> getAsLevelOrder() {
+        if (isEmpty()) throw new NullPointerException("BST is empty");
+        List<Node<K,V>> list = new ArrayList<>(this.size);
+
+        list.add(root);
+        for (int i = 0; i < this.size; i++) {
+            Node<K,V> node = list.get(i);
+
+            if (node.left != null) list.add(node.left);
+            if (node.right != null) list.add(node.right);
+        }
+
+        return list;
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+
     public void processBetween(K min, K max, Consumer<Node<K,V>> consumer) {
         boolean biggerThanMin;
         boolean smallerThanMax;
-        if (root == null)
-            throw new NullPointerException("BST is empty");
+        if (isEmpty()) throw new NullPointerException("BST is empty");
 
         Stack<Node<K,V>> stack = new Stack<>();
         stack.push(root);

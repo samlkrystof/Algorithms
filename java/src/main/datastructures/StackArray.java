@@ -9,6 +9,7 @@ package main.datastructures;
  */
 
 public class StackArray<T> implements IStack<T> {
+    private int filledItems;
     private int freeIndex;
     private Object[] array;
 
@@ -21,12 +22,20 @@ public class StackArray<T> implements IStack<T> {
             throw new IllegalArgumentException("Capacity must be positive number");
         }
         freeIndex = 0;
+        filledItems = 0;
         array = new Object[initialCapacity];
     }
+
+    @Override
+    public int getSize() {
+        return this.filledItems;
+    }
+
     @Override
     public void push(T element) {
         if (freeIndex == array.length) expandArray();
         array[freeIndex++] = element;
+        filledItems++;
     }
 
     @Override
@@ -54,6 +63,7 @@ public class StackArray<T> implements IStack<T> {
         if (freeIndex < array.length / 2) reduceArray();
         T result = (T) array[--freeIndex];
         array[freeIndex] = null;
+        filledItems--;
         return result;
     }
 
@@ -67,11 +77,29 @@ public class StackArray<T> implements IStack<T> {
         if (isEmpty()) throw new NullPointerException("Stack is empty");
         if (freeIndex < array.length / 2) reduceArray();
         array[--freeIndex] = null;
+        filledItems--;
     }
 
     @Override
     public boolean isEmpty() {
         return freeIndex == 0;
+    }
+
+    @Override
+    public boolean contains(T element) {
+        for (int i = 0; i < filledItems; i++) {
+            if (array[Math.abs(freeIndex - 1 - i % array.length)].equals(element)) return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void remove(T element) {
+        for (int i = 0; i < filledItems; i++) {
+            if (array[Math.abs(freeIndex - 1 - i % array.length)].equals(element)) {
+                array[Math.abs(freeIndex - 1 - i % array.length)] = null;
+            }
+        }
     }
 
     public T elementAt(int index) {
@@ -82,9 +110,7 @@ public class StackArray<T> implements IStack<T> {
 
     private void reduceArray() {
         Object[] newArray = new Object[array.length / 2];
-        for (int i = 0; i < newArray.length; i++) {
-            newArray[i] = array[i];
-        }
+        System.arraycopy(array, 0, newArray, 0, newArray.length);
         array = newArray;
     }
     //== CONSTANT CLASS ATTRIBUTES =============================================

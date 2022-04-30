@@ -8,7 +8,7 @@ package main.sorting;
  * @version 1.00.0000
  */
 
-public class ShakerSort implements ISorting {
+public class ShakerSort extends ASorting {
 
     public void sort(int[] array) {
         for (int i = 0; i < array.length / 2; i++) {

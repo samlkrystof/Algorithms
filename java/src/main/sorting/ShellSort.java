@@ -8,7 +8,7 @@ package main.sorting;
  * @version 1.00.0000
  */
 
-public class ShellSort implements ISorting {
+public class ShellSort extends ASorting {
     public void sort(int[] array) {
         int gap = 1;
         while (gap < array.length / 3) {

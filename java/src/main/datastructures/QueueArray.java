@@ -75,6 +75,10 @@ public class QueueArray<T> implements IQueue<T> {
         return this.get();
     }
 
+    public int getSize() {
+        return this.count;
+    }
+
 
     //== CONSTANT CLASS ATTRIBUTES =============================================
     //== VARIABLE CLASS ATTRIBUTES =============================================

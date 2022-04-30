@@ -10,7 +10,7 @@ import java.util.Stack;
  * @version 1.00.0000
  */
 
-public class MergeSortNonRecursive implements ISorting {
+public class MergeSortNonRecursive extends ASorting {
 
     private static class Task {
         public int left;
@@ -24,6 +24,7 @@ public class MergeSortNonRecursive implements ISorting {
     }
 
     public void sort(int[] array) {
+        this.array = array;
         Stack<Task> stack = new Stack<>();
         stack.push(new Task(0, array.length - 1));
         while (!stack.isEmpty()) {
@@ -38,8 +39,8 @@ public class MergeSortNonRecursive implements ISorting {
                     stack.push(new Task(middle + 1, t.right));
                     break;
                 case 1:
-                    int[] bitonic = makeBitonic(array, t.left, middle, t.right);
-                    merge(array, bitonic, t.left);
+                    int[] bitonic = makeBitonic(t.left, middle, t.right);
+                    merge(bitonic, t.left);
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + t.segment);
@@ -47,7 +48,7 @@ public class MergeSortNonRecursive implements ISorting {
         }
     }
 
-    private void merge(int[] array, int[] bitonic, int index) {
+    private void merge(int[] bitonic, int index) {
         int left = 0;
         int right = bitonic.length - 1;
         for (int i = 0; i < bitonic.length; i++) {
@@ -55,7 +56,7 @@ public class MergeSortNonRecursive implements ISorting {
         }
     }
 
-    private int[] makeBitonic(int[] array, int start, int middle, int end) {
+    private int[] makeBitonic(int start, int middle, int end) {
         int[] bitonic = new int[end - start + 1];
 
         for (int i = start; i <= middle; i++) {

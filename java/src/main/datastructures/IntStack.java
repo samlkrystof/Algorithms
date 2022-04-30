@@ -9,6 +9,7 @@ package main.datastructures;
  */
 
 public class IntStack {
+    private int size = 0;
     private Link top;
 
     private static class Link {
@@ -28,12 +29,14 @@ public class IntStack {
         Link newLink = new Link(value);
         newLink.next = top;
         top = newLink;
+        size++;
     }
 
     public int pop() {
         if (isEmpty()) throw new NullPointerException("Stack is empty");
         Link result = top;
         top = top.next;
+        size--;
         return result.value;
     }
 
@@ -49,6 +52,7 @@ public class IntStack {
     public void removeLast() {
         if (isEmpty()) throw new NullPointerException("Stack is empty");
         top = top.next;
+        size--;
     }
     //== CONSTANT CLASS ATTRIBUTES =============================================
     //== VARIABLE CLASS ATTRIBUTES =============================================

@@ -8,24 +8,25 @@ package main.sorting;
  * @version 1.00.0000
  */
 
-public class MergeSort implements ISorting {
+public class MergeSort extends ASorting {
 
     public void sort(int[] array) {
-        sort(array, 0, array.length - 1);
+        this.array = array;
+        sort(0, array.length - 1);
     }
 
-    private void sort(int[] array, int left, int right) {
+    private void sort(int left, int right) {
         if (left >= right) return;
 
         int middle = (left + right) / 2;
-        sort(array, left, middle);
-        sort(array, middle + 1, right);
-        int[] bitonic = makeBitonic(array, left, middle, right);
-        merge(array, bitonic, left);
+        sort(left, middle);
+        sort(middle + 1, right);
+        int[] bitonic = makeBitonic(left, middle, right);
+        merge(bitonic, left);
 
     }
 
-    private void merge(int[] array, int[] bitonic, int index) {
+    private void merge(int[] bitonic, int index) {
         int left = 0;
         int right = bitonic.length - 1;
         for (int i = 0; i < bitonic.length; i++) {
@@ -33,7 +34,7 @@ public class MergeSort implements ISorting {
         }
     }
 
-    private int[] makeBitonic(int[] array, int start, int middle, int end) {
+    private int[] makeBitonic(int start, int middle, int end) {
         int[] bitonic = new int[end - start + 1];
 
         for (int i = start; i <= middle; i++) {

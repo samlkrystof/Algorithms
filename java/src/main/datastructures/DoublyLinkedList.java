@@ -206,7 +206,34 @@ public class DoublyLinkedList<T> {
         remove();
     }
 
-    public int size() {
+    public void remove(T data) {
+        if (isEmpty()) throw new NullPointerException("List is empty");
+
+        moveToFirst();
+        Link<T> link = first;
+        while (link != null) {
+            if (link.data.equals(data)) {
+                if (link == first) {
+                    if (this.size == 1) {
+                        first = last = null;
+                    } else {
+                        link.next.previous = null;
+                        first = first.next;
+                    }
+                } else if (link == last) {
+                    link.previous.next = null;
+                    last = last.previous;
+                } else {
+                    link.previous.next = link.next;
+                    link.next.previous = link.previous;
+                }
+                size--;
+            }
+            link = link.next;
+        }
+    }
+
+    public int getSize() {
         return size;
     }
 
@@ -273,7 +300,7 @@ public class DoublyLinkedList<T> {
         }
 
         public boolean hasNext() {
-            if (list.size() <= 1) return false;
+            if (list.size <= 1) return false;
             return current == null || current.next != null;
         }
 

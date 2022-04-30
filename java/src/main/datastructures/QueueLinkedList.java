@@ -9,6 +9,7 @@ package main.datastructures;
  */
 
 public class QueueLinkedList<T> implements IQueue<T> {
+    private int size = 0;
     private Link<T> first;
     private Link<T> last;
 
@@ -30,6 +31,7 @@ public class QueueLinkedList<T> implements IQueue<T> {
             last.next = newLink;
         }
         last = newLink;
+        size++;
     }
 
     @Override
@@ -42,6 +44,7 @@ public class QueueLinkedList<T> implements IQueue<T> {
     public void removeFirst() {
         if (isEmpty()) throw new NullPointerException("Queue is empty");
         first = first.next;
+        size--;
     }
 
     @Override
@@ -59,6 +62,10 @@ public class QueueLinkedList<T> implements IQueue<T> {
         T result = get();
         removeFirst();
         return result;
+    }
+
+    public int getSize() {
+        return this.size;
     }
 
     @Override

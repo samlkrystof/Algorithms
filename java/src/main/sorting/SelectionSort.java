@@ -1,6 +1,6 @@
 package main.sorting;
 
-public class SelectionSort implements ISorting {
+public class SelectionSort extends ASorting {
 
     public void sort(int[] array) {
         for (int i = 0; i < array.length - 1; i++) {

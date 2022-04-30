@@ -1,6 +1,7 @@
 package main.datastructures;
 
 import java.util.Hashtable;
+import java.util.PriorityQueue;
 
 /******************************************************************************
  * Instances of class UnionAndFind are ...
@@ -77,42 +78,6 @@ public class UnionAndFind {
     }
 
     public static void main(String[] args) {
-        Hashtable<Character, Integer> table = new Hashtable<>();
-        table.put('E', 0);
-        table.put('F', 1);
-        table.put('I', 2);
-        table.put('D', 3);
-        table.put('C', 4);
-        table.put('A', 5);
-        table.put('J', 6);
-        table.put('L', 7);
-        table.put('G', 8);
-        table.put('K', 9);
-        table.put('B', 10);
-        table.put('H', 11);
-        UnionAndFind unionAndFind = new UnionAndFind(12);
-        unionAndFind.union(table.get('C'), table.get('K'));
-        unionAndFind.union(table.get('F'), table.get('E'));
-        unionAndFind.union(table.get('A'), table.get('J'));
-        unionAndFind.union(table.get('A'), table.get('B'));
-        unionAndFind.union(table.get('C'), table.get('D'));
-        unionAndFind.union(table.get('D'), table.get('I'));
-        unionAndFind.union(table.get('L'), table.get('F'));
-        unionAndFind.union(table.get('C'), table.get('A'));
-        unionAndFind.union(table.get('A'), table.get('B'));
-        unionAndFind.union(table.get('H'), table.get('G'));
-        unionAndFind.union(table.get('H'), table.get('F'));
-        unionAndFind.union(table.get('H'), table.get('B'));
-
-        for (int i = 0; i < unionAndFind.predecessor.length; i++) {
-//            System.out.print(unionAndFind.find(i) + " " + unionAndFind.getSizeOfComponent(i) + " ");
-            System.out.println(unionAndFind.predecessor[i]);
-        }
-        System.out.println();
-        for (int i = 0; i < unionAndFind.predecessor.length; i++) {
-//            System.out.print(unionAndFind.find(i) + " " + unionAndFind.getSizeOfComponent(i) + " ");
-            System.out.println(unionAndFind.predecessor[i]);
-        }
     }
 
 

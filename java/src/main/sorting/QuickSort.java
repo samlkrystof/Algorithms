@@ -8,20 +8,21 @@ package main.sorting;
  * @version 1.00.0000
  */
 
-public class QuickSort implements ISorting {
+public class QuickSort extends ASorting {
     public void sort(int[] array) {
-        sort(array, 0, array.length - 1);
+        this.array = array;
+        sort(0, array.length - 1);
     }
 
-    private void sort(int[] array, int left, int right) {
+    private void sort(int left, int right) {
         if (left >= right) return;
 
-        int middle = split(array, left, right);
-        sort(array, left, middle - 1);
-        sort(array, middle + 1, right);
+        int middle = split(left, right);
+        sort(left, middle - 1);
+        sort(middle + 1, right);
     }
 
-    private int split(int[] array, int left, int right) {
+    private int split(int left, int right) {
         int pivot = array[right];
         while (true) {
             while (left < right && array[left] < pivot) left++;

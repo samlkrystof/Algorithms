@@ -8,22 +8,23 @@ package main.sorting;
  * @version 1.00.0000
  */
 
-public class QuickSort2 implements ISorting {
+public class QuickSort2 extends ASorting {
     public void sort(int[] array) {
-        sort(array, 0, array.length - 1);
+        this.array = array;
+        sort(0, array.length - 1);
     }
 
-    private void sort(int[] array, int left, int right) {
+    private void sort(int left, int right) {
         if (left >= right) return;
 
-        int middle = split(array, left, right);
-        sort(array, left, middle - 1);
-        sort(array, middle + 1, right);
+        int middle = split(left, right);
+        sort(left, middle - 1);
+        sort(middle + 1, right);
     }
 
-    private int split(int[] array, int left, int right) {
-        int median = findMedian(array, left, right);
-        swap(array, median, right);
+    private int split(int left, int right) {
+        int median = findMedian(left, right);
+        swap(median, right);
         int pivot = array[right];
         while (true) {
             while (left < right && array[left] < pivot) left++;
@@ -45,7 +46,7 @@ public class QuickSort2 implements ISorting {
         return left;
     }
 
-    private int findMedian(int[] array, int left, int right) {
+    private int findMedian(int left, int right) {
         int middle = (left + right) / 2;
         int median = Math.max(Math.min(array[left], array[middle]), array[right]);
         if (median == array[right]) {
@@ -57,7 +58,7 @@ public class QuickSort2 implements ISorting {
         }
     }
 
-    private void swap(int[] array, int i, int j) {
+    private void swap(int i, int j) {
         int tmp = array[i];
         array[i] = array[j];
         array[j] = tmp;

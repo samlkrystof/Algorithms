@@ -9,7 +9,7 @@ package main.sorting;
  * @date 11.08.2021
  */
 
-public class BubbleSort implements ISorting {
+public class BubbleSort extends ASorting {
 
     public void sort(int[] array) {
         for (int i = 0; i < array.length - 1; i++) {
